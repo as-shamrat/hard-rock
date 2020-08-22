@@ -84,7 +84,7 @@
             <!-- Single Lyrics -->
             <div class="single-lyrics text-center">
                 <button class="btn go-back">&lsaquo;</button>
-                <h2 class="text-success mb-4">Pentatonix - Na Na Na</h2>
+                <h2 class="text-success mb-4" id="songTitle">Pentatonix - Na Na Na</h2>
                 <pre class="lyric text-white" id="clicked-lyrics">
     Wont go whistling like the wind blows,
     Looking out my window,
@@ -259,8 +259,16 @@
                 fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
                     .then(res => res.json())
                     .then(data => {
-                        document.getElementById('clicked-lyrics').innerText = data.lyrics;
-                        console.log(data.lyrics);
+                        if (data.lyrics) {
+                            document.getElementById('clicked-lyrics').innerText = data.lyrics;
+                            document.getElementById('songTitle').innerText = dataRes.data[i].title;
+                            console.log(data.lyrics);
+                        }
+                        else {
+                            document.getElementById('songTitle').innerText = dataRes.data[i].title;
+                            document.getElementById('clicked-lyrics').innerText = "no lyrics found";
+                        }
+
                     })
 
             })
@@ -272,7 +280,7 @@
         // }
 
         function putGlobal(variable) {
-            dataRes =  variable;
+            dataRes = variable;
         }
 
 
@@ -283,8 +291,8 @@
                 .then(data => {
                     putGlobal(data);
                     displayData(data);
-                } )
-                
+                })
+
 
             function displayData(data) {
                 console.log(data);
